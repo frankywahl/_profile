@@ -242,3 +242,14 @@ function ssh_ec2(){
     echo "Logging in $PUBLIC_IP as $AWS_USER"
     ssh $AWS_USER@$PUBLIC_IP -v && echo "Install apt-get install -y ec2-instance-connect at $1"
 }
+
+sort_ip() { 
+  sort -t . -k 3,3n -k 4,4n
+}
+
+doc_tree() {
+tree=$(tree -tf --noreport -I '*~' --charset ascii $1 |
+       sed -e 's/| \+/  /g' -e 's/[|`]-\+/ */g' -e 's:\(* \)\(\(.*/\)\([^/]\+\)\):\1[\4](\2):g')
+
+       printf "# Project tree\n\n${tree}"
+}

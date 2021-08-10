@@ -1,4 +1,4 @@
-fpath=($fpath ~/.zshcompletions)
+fpath=($fpath ~/.zsh/completion)
 
 # Restore defaults
 emulate -LR zsh
@@ -71,8 +71,8 @@ zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 zstyle ':vcs_info:*' enable git cvs svn
 zstyle ':vcs_info:git:*' formats '(%b)'
 
-# Start Prompt
-PROMPT="["
+
+PROMPT="[%F{cyan}%D{%L:%M:%S}%f]["
 
 # User@host: directory
 PROMPT="${PROMPT}%F{red}%n%f@%F{green}%M%f %F{blue}%~%f"
@@ -107,3 +107,9 @@ export CLICOLOR=1
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules'
 
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+# export RUN_IN_COMPOSE=false
+#
+source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+source /Users/fwahl/.config/broot/launcher/bash/br

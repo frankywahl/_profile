@@ -161,7 +161,10 @@ unset BLACK BLUE GREEN CYAN RED PURPLE BROWN LGREY GREY \
 # export   WHITE="\[[1:37m\]"
 # export DEFAULT="\[[0;39m\]"
 
+
 eval "$(rbenv init -)"
 
 export EDITOR=vim
 export PATH="/usr/local/opt/gettext/bin:$PATH"
+
+source /Users/fwahl/.config/broot/launcher/bash/br
