@@ -157,6 +157,20 @@ psgrep(){
    ps aux | grep $(echo $1 | sed "s/^\(.\)/[\1]/g")
  }                                                 
 
+tor() {
+	export IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+	/usr/X11/bin/xhost + ${IP}
+	docker run \
+		--rm --name tor \
+		-e DISPLAY=${IP}:0 \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-v $(pwd):/usr/local/bin/Browser/Downloads/ \
+		jess/tor-browser
+	/usr/X11/bin/xhost - ${IP}
+  unset IP
+
+}
+
 # Jumping with symlinks
 # http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
 
