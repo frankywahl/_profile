@@ -38,6 +38,7 @@ fi
 
 PATH=~/.dotFiles/profile/bin:$PATH
 PATH=/usr/local/bin:$PATH
+PATH=/opt/homebrew/bin:$PATH
 PATH=/usr/local/sbin:$PATH
 
 if (($+commands[go])); then
