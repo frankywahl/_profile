@@ -198,7 +198,7 @@ function marks {
 
 func mfaws() {
   # docker run --rm -v ~/.aws/:/root/.aws pbar1/mfaws:latest --force -t $(ykman oath accounts code -s 'Amazon Web Services')
-  $GOPATH/bin/mfaws --force -t $($(brew --prefix)/bin/ykman oath accounts code 'Amazon Web Services' -s)
+  $GOPATH/bin/mfaws --force -t $(op item get --vault Private "Amazon" --otp)
 }
 
 # now prints out the current time in the RFC3339 format
