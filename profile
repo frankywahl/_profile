@@ -75,6 +75,7 @@ fi
 
 # Setup the PATH.
 PATH=~/.dotFiles/profile/bin:$PATH
+PATH=/opt/homebrew/opt/mysql@5.7/bin/:$PATH 
 export PATH
 
 # Setup a colorized prompt, the way I like it
@@ -164,3 +165,7 @@ unset BLACK BLUE GREEN CYAN RED PURPLE BROWN LGREY GREY \
 eval "$(rbenv init -)"
 
 export EDITOR=vim
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519.sign

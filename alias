@@ -48,6 +48,11 @@ sshfs(){
   pushd /Volumes/${FOLDER}
 }
 alias unmount_all="pushd ~/ &>/dev/null && find /Volumes -mindepth 1 -maxdepth 1 -type d -exec umount {} \; && popd &>/dev/null"
+# alias kubectl='tsh -- kubectl'
+
+function teleport-login(){
+  tsh login --proxy=teleport.on-running.com --auth=github
+}
 
 # forever() executes its argument in an infinite loop. Useful for
 # monitoring things. Note it will not work with aliases.
@@ -215,6 +220,18 @@ function presign() {
   AWS_REGION=$(aws s3api get-bucket-location --bucket frankywahl | jq -r '.LocationConstraint' | sed 's/null/us-east-1/g') aws s3 presign s3://frankywahl/$1
 }
 
-function() opmfa() {
+function opmfa() {
   /opt/homebrew/bin/oathtool --totp --base32 $ONE_PASSWORD_MFA
 }
+
+function ssh_ec2(){
+    AWS_USER=${AWS_USER=ec2-user}
+    TEMP=$(mktemp)
+    aws ec2 describe-instances --instance-ids "$1" > $TEMP || echo "Fail to get $1" || return
+    AVAILABILITY_ZONE=$(cat $TEMP |jq ".Reservations[].Instances[].Placement.AvailabilityZone" -r)
+    PUBLIC_IP=$(cat $TEMP | jq ".Reservations[].Instances[].NetworkInterfaces[].Association.PublicIp" -r)
+    aws ec2-instance-connect send-ssh-public-key --instance-id $1 --availability-zone $AVAILABILITY_ZONE --instance-os-user $AWS_USER --ssh-public-key file://$HOME/.ssh/id_ed25519.pub || echo "Failed to send ssh key" || return
+    echo "Logging in $PUBLIC_IP as $AWS_USER"
+    ssh $AWS_USER@$PUBLIC_IP -v && echo "Install apt-get install -y ec2-instance-connect at $1"
+}
+

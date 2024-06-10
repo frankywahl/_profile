@@ -31,6 +31,7 @@ setopt COMPLETE_ALIASES
 . ~/.dotFiles/profile/alias.zshrc
 . ~/.keys
 
+
 if [[ $os = "Darwin" || $os = "Linux" ]]; then
 	# Set access to root
 	alias su="sudo su"
@@ -46,6 +47,20 @@ if (($+commands[go])); then
 	PATH=$PATH:${GOPATH}/bin
 fi
 
+_ARCH=$(arch)
+PROMPT="$_ARCH $PROMPT"
+# Requires iterm2
+if [[ "$_ARCH" == "i386" ]]; then
+ echo -ne "\033]1337;SetColors=bg=1d2b2e\007"
+ export PATH="/usr/local/homebrew/bin:$PATH"
+ export PATH="/usr/local/homebrew/opt:$PATH"
+else
+ export PATH="/opt/homebrew/bin:$PATH"
+ export PATH="/opt/homebrew/opt:$PATH"
+fi
+
+export PATH
+
 if (($+commands[rbenv])); then
   eval "$(rbenv init -)"
 fi
@@ -53,8 +68,6 @@ fi
 if (($+commands[nodenv])); then
   eval "$(nodenv init -)"
 fi
-
-export PATH
 
 autoload -Uz vcs_info
 
@@ -102,4 +115,18 @@ set -o vi
 export CLICOLOR=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.kubectl.zsh ] && source ~/.kubectl.zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+# export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH"
+export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# ssh-add --apple-use-keychain ~/.ssh/id_ed25519.sign 2>/dev/null
+
+
+# export AWS_PROFILE=dev
